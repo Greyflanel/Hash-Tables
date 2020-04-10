@@ -7,8 +7,6 @@ class DynamicArray:
     def insert(self, index, value):
         if self.length >= self.capacity:
             self.resize()
-​
-
         # shift everything to the right of index, to the right
         for i in range(self.length, index, -1):
             self.storage[i] = self.storage[i - 1]
@@ -31,4 +29,3 @@ class DynamicArray:
             new_storage[i] = self.storage[i]
         # set the new array to storage
         self.storage = new_storage
-Shared in

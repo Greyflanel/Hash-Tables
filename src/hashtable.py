@@ -6,8 +6,8 @@ class LinkedPair:
         self.key = key
         self.value = value
         self.next = None
-    def __repr__(self):
-        return f"<{self.key}, {self.value}>"
+    # def __repr__(self):
+    #     return f"<{self.key}, {self.value}>"
 
 class HashTable:
     '''
@@ -57,13 +57,18 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
-
+        current_node = self.storage[index]
+        target = False
         if self.storage[index] is not None:
-            print("Warning: Collision detected at key: ", key)
-        else:
-            self.storage[index] = LinkedPair(key, value)
+            while current_node and not target:
+                if current_node:
+                    current_node.value = value
+                    target = True
+                elif current_node.next == None:
+                    current_node.next = LinkedPair(key, value)
+                    print(current_node.next)
 
-
+        self.storage[index] = LinkedPair(key, value)
     def remove(self, key):
         '''
         Remove the value stored with the given key.
@@ -75,7 +80,8 @@ class HashTable:
         index = self._hash_mod(key)
         if self.storage[index]:
             self.storage[index] = None
-        else: print("key not found")
+        else: 
+            print("key not found")
             
 
 
@@ -107,8 +113,9 @@ class HashTable:
         self.storage = [None] * self.capacity
         for pair in old_storage:
             if pair is not None:
-                self.insert(pair.key, pair.value)
-                
+                new_index = self._hash_mod(pair.key)
+                self.storage[new_index] = LinkedPair(pair.key, pair.value)
+        self.storage[new_index]       
 
 
 if __name__ == "__main__":
@@ -136,7 +143,6 @@ if __name__ == "__main__":
     print(ht.retrieve("line_1"))
     print(ht.retrieve("line_2"))
     print(ht.retrieve("line_3"))
-    print(ht.storage)
     
 
 
